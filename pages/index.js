@@ -55,8 +55,7 @@ const addTodoPopupForm = new PopupWithForm(popupSelector, (values) => {
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
   values.date = date;
 
-  const element = generateTodo(values);
-  todoList.addItem(element);
+  renderTodo(values);
   todoCounter.updateTotal(true);
   addTodoPopupForm.close();
   formValidator.resetValidation();

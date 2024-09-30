@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 import {
   initialTodos,
   validationConfig,
@@ -8,11 +9,11 @@ import {
   todoFormSelector,
   todoTemplateSelector,
 } from "../utils/constants.js";
-import Section from "../utils/section.js";
-import Todo from "../components/todo.js";
-import FormValidator from "../components/formValidator.js";
-import PopupWithForm from "../components/popupWithForm.js";
-import TodoCounter from "../components/todoCounter.js";
+import Section from "../components/Section.js";
+import Todo from "../components/Todo.js";
+import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import TodoCounter from "../components/TodoCounter.js";
 
 const todoCounter = new TodoCounter(initialTodos, counterSelector);
 
@@ -32,18 +33,28 @@ const generateTodo = (data) => {
   return todo.getView();
 };
 
+const renderTodo = (item) => {
+  const element = generateTodo(item);
+  todoList.addItem(element);
+};
+
 const todoList = new Section({
   items: initialTodos,
-  renderer: (item) => {
-    const element = generateTodo(item);
-    todoList.addItem(element);
-  },
+  renderer: renderTodo,
   containerSelector: todoListSelector,
 });
 
 todoList.renderItems();
 
 const addTodoPopupForm = new PopupWithForm(popupSelector, (values) => {
+  // Add id
+  values.id = uuidv4();
+
+  // Change date to local time
+  const date = new Date(values.date);
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+  values.date = date;
+
   const element = generateTodo(values);
   todoList.addItem(element);
   todoCounter.updateTotal(true);
@@ -56,6 +67,8 @@ addTodoPopupForm.setEventListeners();
 const addTodoBtn = document.querySelector(addTodoSelector);
 addTodoBtn.addEventListener("click", () => addTodoPopupForm.open());
 
-const addTodoForm = document.forms[todoFormSelector];
-const formValidator = new FormValidator(validationConfig, addTodoForm);
+const formValidator = new FormValidator(
+  validationConfig,
+  addTodoPopupForm.getForm()
+);
 formValidator.enableValidation();

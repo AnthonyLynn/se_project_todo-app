@@ -1,30 +1,25 @@
-import { v4 as uuidv4 } from "https://jspm.dev/uuid";
-import Popup from "./popup.js";
+import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, onSubmit) {
     super(popupSelector);
 
     this._form = this._popup.querySelector(".popup__form");
+    this._inputList = this._form.querySelectorAll(".popup__input");
     this._onSubmit = onSubmit;
   }
 
   _getInputValues() {
-    this._inputList = this._form.querySelectorAll(".popup__input");
-
-    const inputValues = { id: uuidv4() };
+    const inputValues = {};
     this._inputList.forEach((input) => {
-      if (input.name === "date") {
-        const date = new Date(input.value);
-        date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-
-        inputValues[input.name] = date;
-      } else {
-        inputValues[input.name] = input.value;
-      }
+      inputValues[input.name] = input.value;
     });
 
     return inputValues;
+  }
+
+  getForm() {
+    return this._form;
   }
 
   setEventListeners() {

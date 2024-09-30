@@ -52,7 +52,7 @@ export default class FormValidator {
       this._settings.submitButtonSelector
     );
 
-    this._toggleButton(false);
+    this._toggleButton();
 
     this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
@@ -75,7 +75,7 @@ export default class FormValidator {
   }
 
   resetValidation() {
-    this._toggleButton(false);
+    this._toggleButton();
     this._resetInputs();
   }
 }

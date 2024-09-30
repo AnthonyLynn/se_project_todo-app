@@ -76,7 +76,6 @@ export default class Todo {
     this._loadDateElement();
 
     this._deleteBtnElement = this._element.querySelector(".todo__delete-btn");
-    this._checkboxElement = this._element.querySelector(".todo__completed");
 
     this._setEventListeners();
 

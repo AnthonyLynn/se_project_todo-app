@@ -18,3 +18,20 @@ export const initialTodos = [
     date: new Date(),
   },
 ];
+
+export const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  errorClass: "popup__error_visible",
+  inputErrorClass: "popup__input_type_error",
+  inactiveButtonClass: "button_disabled",
+};
+
+export const todoListSelector = ".todos__list";
+export const popupSelector = ".popup";
+export const addTodoSelector = ".button_action_add";
+export const counterSelector = ".counter__text";
+export const todoFormSelector = "add-todo-form";
+
+export const todoTemplateSelector = "#todo-template";
